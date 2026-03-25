@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import FinanceControl from "./components/FinanceControl/FinanceControl";
 import Header from "./components/Header/Header";
-import type { Movement } from "./models/interfaces/moviment/Movement";
+import type { Movement } from "./models/interfaces/movement/Movement";
 
 function App() {
   const [currentBalance, setCurrentBalance] = useState(0); //State de saldo atual
@@ -19,6 +19,8 @@ function App() {
           type: movement.type,
           id: Math.random().toString(),
         });
+        console.log(movementItems);
+
         return movements;
       });
 
@@ -40,7 +42,11 @@ function App() {
   return (
     <>
       <Header />
-      <FinanceControl />
+      <FinanceControl
+        balance={currentBalance}
+        expenses={currentExpenses}
+        handleSetMovement={setNewMovement}
+      />
     </>
   );
 }
