@@ -1,6 +1,7 @@
 import type { FinanceControlProps } from "../../models/interfaces/FinanceControlProps/FinanceControlProps";
 import type { Movement } from "../../models/interfaces/movement/Movement";
 import Balance from "../Balance/Balance";
+import Expense from "../Expenses/Expense";
 import "./FinanceControl.css";
 
 const FinanceControl = ({
@@ -9,6 +10,7 @@ const FinanceControl = ({
   expenses,
 }: FinanceControlProps) => {
   const receiveNewMovement = (movement: Movement) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     movement && handleSetMovement(movement);
   };
 
@@ -16,10 +18,14 @@ const FinanceControl = ({
     <div className="container_finances">
       <Balance
         currentBalance={balance}
-        emitMovemente={receiveNewMovement}
+        emitMovement={receiveNewMovement}
         key={expenses}
       />
-      {/* EXPENSE */}
+      <Expense
+        currentBalance={balance}
+        currentExpenses={expenses}
+        emitMovement={receiveNewMovement}
+      />
     </div>
   );
 };

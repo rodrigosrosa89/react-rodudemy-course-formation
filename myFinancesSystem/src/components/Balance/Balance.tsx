@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useState } from "react";
 import type { BalanceProps } from "../../models/interfaces/BalanceProps/BalanceProps";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -5,7 +6,7 @@ import { faDollar } from "@fortawesome/free-solid-svg-icons";
 import "./Balance.css";
 import Button from "../Button/Button";
 
-const Balance = ({ emitMovemente, currentBalance }: BalanceProps) => {
+const Balance = ({ emitMovement, currentBalance }: BalanceProps) => {
   const [renderInputForm, setRenderInputForm] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   const [inputName, setInputName] = useState("");
@@ -18,6 +19,36 @@ const Balance = ({ emitMovemente, currentBalance }: BalanceProps) => {
     setIsFormValid(true);
     setInputName("");
     setInputValue("");
+  };
+
+  const formSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event?.preventDefault();
+
+    if (inputName.trim().length === 0 || inputValue.trim().length === 0) {
+      setIsFormValid(false);
+      return;
+    }
+
+    hideInputForm();
+    emitMovement({
+      name: inputName,
+      value: inputValue,
+      type: "Input",
+    });
+  };
+
+  const handleInputNameForm = (event: React.FormEvent<HTMLInputElement>) => {
+    const eventTarget = event.currentTarget as HTMLInputElement;
+    const eventValue = eventTarget.value;
+    inputName.trim().length > 0 ? setIsFormValid(true) : setIsFormValid(false);
+    setInputName(eventValue);
+  };
+
+  const handleInputValueForm = (event: React.FormEvent<HTMLInputElement>) => {
+    const eventTarget = event.currentTarget as HTMLInputElement;
+    const eventValue = eventTarget.value;
+    inputValue.trim().length > 0 ? setIsFormValid(true) : setIsFormValid(false);
+    setInputValue(eventValue);
   };
 
   return (
@@ -37,6 +68,38 @@ const Balance = ({ emitMovemente, currentBalance }: BalanceProps) => {
               title="Entradas"
               priority="Input"
             />
+          )}
+
+          {renderInputForm && (
+            <form onSubmit={formSubmitHandler}>
+              <div
+                className={`input_form_container ${isFormValid} "invalid" : ""}`}
+              >
+                <input
+                  type="text"
+                  placeholder="Nome"
+                  className="balance_input"
+                  value={inputName}
+                  onChange={handleInputNameForm}
+                />
+                <input
+                  type="text"
+                  placeholder="Valor"
+                  className="balance_input"
+                  value={inputValue}
+                  onChange={handleInputValueForm}
+                />
+              </div>
+
+              <div className="actions_form_button_container">
+                <Button
+                  title="Cancelar"
+                  priority="Output"
+                  action={hideInputForm}
+                />
+                <Button title="Adicionar" priority="Input" type="submit" />
+              </div>
+            </form>
           )}
         </div>
       </div>
