@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { ExpenseProps } from "../../models/interfaces/ExpenseProps/ExpenseProps";
 import Button from "../Button/Button";
 import "./Expense.css";
+import { FormatMoney } from "../../utils/utils";
 
 const Expense = ({
   emitMovement,
@@ -79,7 +80,11 @@ const Expense = ({
             <h2>Despesas</h2>
           </header>
 
-          <h3>{currentExpenses > 0 ? currentExpenses : "R$0,00"}</h3>
+          <h3>
+            {currentExpenses > 0
+              ? FormatMoney(currentExpenses.toString())
+              : "R$0,00"}
+          </h3>
 
           {!renderInputForm && (
             <Button

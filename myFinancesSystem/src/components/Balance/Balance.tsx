@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDollar } from "@fortawesome/free-solid-svg-icons";
 import "./Balance.css";
 import Button from "../Button/Button";
+import { FormatMoney } from "../../utils/utils";
 
 const Balance = ({ emitMovement, currentBalance }: BalanceProps) => {
   const [renderInputForm, setRenderInputForm] = useState(false);
@@ -60,7 +61,11 @@ const Balance = ({ emitMovement, currentBalance }: BalanceProps) => {
             <h2>Saldo</h2>
           </header>
 
-          <h3>{currentBalance > 0 ? currentBalance : "R$0,00"}</h3>
+          <h3>
+            {currentBalance > 0
+              ? FormatMoney(currentBalance.toString())
+              : "R$0,00"}
+          </h3>
 
           {!renderInputForm && (
             <Button
