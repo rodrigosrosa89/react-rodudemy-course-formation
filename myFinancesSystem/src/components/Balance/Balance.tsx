@@ -4,10 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import styled from "styled-components";
 import type { BalanceProps } from "../../models/interfaces/BalanceProps/BalanceProps";
+import type { FormContainerProps } from "../../models/interfaces/FormContainerProps/FormContainerProps";
 import { FormatMoney } from "../../utils/utils";
 import Button from "../Button/Button";
-import "./Balance.css";
-import type { FormContainerProps } from "../../models/interfaces/FormContainerProps/FormContainerProps";
 
 export const Container = styled.div`
   display: flex;
@@ -92,6 +91,14 @@ export const FormInput = styled.input`
   }
 `;
 
+export const ActionsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+`;
+
 const Balance = ({ emitMovement, currentBalance }: BalanceProps) => {
   const [renderInputForm, setRenderInputForm] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
@@ -138,58 +145,56 @@ const Balance = ({ emitMovement, currentBalance }: BalanceProps) => {
   };
 
   return (
-    <div>
-      <Container>
-        <Card>
-          <CardHeader>
-            <FontAwesomeIcon icon={faDollar} color="#7af1a7" size="2x" />
-            <h2>Saldo</h2>
-          </CardHeader>
+    <Container>
+      <Card>
+        <CardHeader>
+          <FontAwesomeIcon icon={faDollar} color="#7af1a7" size="2x" />
+          <h2>Saldo</h2>
+        </CardHeader>
 
-          <h3>
-            {currentBalance > 0
-              ? FormatMoney(currentBalance.toString())
-              : "R$0,00"}
-          </h3>
+        <h3>
+          {currentBalance > 0
+            ? FormatMoney(currentBalance.toString())
+            : "R$0,00"}
+        </h3>
 
-          {!renderInputForm && (
-            <Button
-              action={handleRenderInPutForm}
-              title="Entradas"
-              priority="Input"
-            />
-          )}
+        {!renderInputForm && (
+          <Button
+            action={handleRenderInPutForm}
+            title="Entradas"
+            priority="Input"
+          />
+        )}
 
-          {renderInputForm && (
-            <form onSubmit={formSubmitHandler}>
-              <FormContainer invalid={!isFormValid}>
-                <FormInput
-                  type="text"
-                  placeholder="Nome"
-                  value={inputName}
-                  onChange={handleInputNameForm}
-                />
-                <FormInput
-                  type="text"
-                  placeholder="Valor"
-                  value={inputValue}
-                  onChange={handleInputValueForm}
-                />
-              </FormContainer>
+        {renderInputForm && (
+          <form onSubmit={formSubmitHandler}>
+            <FormContainer invalid={!isFormValid}>
+              <FormInput
+                type="text"
+                placeholder="Nome"
+                value={inputName}
+                onChange={handleInputNameForm}
+              />
+              <FormInput
+                type="text"
+                placeholder="Valor"
+                value={inputValue}
+                onChange={handleInputValueForm}
+              />
+            </FormContainer>
 
-              <div className="actions_form_button_container">
-                <Button
-                  title="Cancelar"
-                  priority="Output"
-                  action={hideInputForm}
-                />
-                <Button title="Adicionar" priority="Input" type="submit" />
-              </div>
-            </form>
-          )}
-        </Card>
-      </Container>
-    </div>
+            <ActionsContainer>
+              <Button
+                title="Cancelar"
+                priority="Output"
+                action={hideInputForm}
+              />
+              <Button title="Adicionar" priority="Input" type="submit" />
+            </ActionsContainer>
+          </form>
+        )}
+      </Card>
+    </Container>
   );
 };
 

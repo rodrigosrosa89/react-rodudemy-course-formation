@@ -2,10 +2,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { MovementProps } from "../../models/interfaces/MovementsProps/MovementProps";
 import { faMoneyBillTransfer } from "@fortawesome/free-solid-svg-icons";
 import "./Movements.css";
+import React from "react";
 
 const Movements = ({ movementsList }: MovementProps) => {
   return (
-    <div>
+    <React.Fragment>
       <header className="movements_header">
         <FontAwesomeIcon icon={faMoneyBillTransfer} color="#7a1a7" size="2x" />
         <h2>{`${movementsList.length > 0 ? "Movimentações" : "Sem movimentações a exibir"}`}</h2>
@@ -22,7 +23,7 @@ const Movements = ({ movementsList }: MovementProps) => {
             </h3>
           </div>
         ))}
-    </div>
+    </React.Fragment>
   );
 };
 
